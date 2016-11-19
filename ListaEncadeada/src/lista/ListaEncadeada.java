@@ -69,6 +69,7 @@ public class ListaEncadeada implements Iterable<String> {
 		
 	}
 	
+	//============================ CLASSE NODE
 	private class Node {
 		public final String dado;
 		private Node next;

@@ -1,28 +1,39 @@
 package lista;
 
+import java.io.FileNotFoundException;
+
 public class TesteListaEncadeada {
 
+	
 	public static void main(String[] args) {
-		ListaEncadeada lista = new ListaEncadeada();
-		
-		lista.append("Rafael");
-		lista.append("Antonio");
-		lista.append("Guilherme");
-		lista.append("Ivonei");
-		lista.pushFront("Aline");
-		
-		Iterador iter = lista.iterator();
-		iter.next();
-		iter.next();
-		iter.append("Quarto");
-		iter.insert("Segundo");
-
-		for (String s : lista) {
-			System.out.println(s);
+		try {
+			(new TesteListaEncadeada()).run();
+		} catch (FileNotFoundException e) {
+			System.err.println("Nao encontrou arquivo.");
+			System.err.println(e.getMessage());
 		}
+	}//===============================FINAL MAIN
+
+	private void run() throws FileNotFoundException {
+		
+		
+		listagemCSV();
 		
 	}
-	
-	
+	ListaEncadeada lista = new ListaEncadeada();
 
+	public void listagemCSV() throws FileNotFoundException{
+		
+		Parser<ListaNomes> parser = new ListaNomesParser(); 
+		LeitorArquivo<ListaNomes> leitor = new LeitorArquivo<>("src/arquivos/Lista_Nomes.csv", parser);
+		
+		
+		while (leitor.hasNext()) {
+			ListaNomes dados = leitor.readObject();
+			lista.append(dados.getNome()); 
+		}
+		leitor.close();
+		lista.print();
+	
+	}
 }
